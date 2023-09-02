@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 
-import routers from './routers';
+import advertisementRoute from './entry-points/api/add-router';
 
 export default async (app: Application) => {
   app.use(express.json());
@@ -10,6 +10,8 @@ export default async (app: Application) => {
   app.use(cors());
 
   //const channel = await CreateChannel()
-
-  app.use('/api', routers());
+  // advertisement route
+  app.use('/api/advertisement', advertisementRoute());
+  // category route
+  // app.use('/categories');
 };

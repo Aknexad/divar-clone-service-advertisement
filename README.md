@@ -1,2 +1,3 @@
-# divar-clone-service-product
-product srevice
+# divar-clone-service-advertisement
+
+advertisement service
