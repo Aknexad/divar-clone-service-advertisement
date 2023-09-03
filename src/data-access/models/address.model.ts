@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 interface AddressMode {
   productId: mongoose.Schema.Types.ObjectId;
-  longitude: string;
-  latitude: string;
+  longitude?: string;
+  latitude?: string;
   city: string;
   Neighborhood: string;
 }

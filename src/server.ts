@@ -1,20 +1,19 @@
 import express from 'express';
 
 import expressApp from './express-app';
-import config from './configs';
-import { connectToDatabase } from './data-access/database-connection';
+import { ENV } from './configs';
 
-const { PORT, DATABASE_URL } = config;
+import { connectToDatabase } from './data-access/database-connection';
 
 const startServer = async () => {
   const app = express();
 
-  await connectToDatabase(DATABASE_URL!);
+  await connectToDatabase(ENV.DATABASE_URL);
   await expressApp(app);
 
   app
-    .listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+    .listen(ENV.PORT, () => {
+      console.log(`Server is running on port ${ENV.PORT}`);
     })
     .on('error', err => {
       console.log(err);

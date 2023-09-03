@@ -3,12 +3,16 @@ import { AdvertisementRepositoryInterface } from '../interfaces-type/add.reposit
 class AdvertisementRepository implements AdvertisementRepositoryInterface {
   constructor() {}
 
-  async crateAdd(data: any): Promise<void> {
+  async carateAdverts(data: any): Promise<void> {
     return;
   }
 
-  async getAdd(query: any): Promise<any> {
+  async getAdverts(query: any): Promise<any> {
     return;
+  }
+
+  async getAdvertById(id: string) {
+    return null;
   }
 }
 
