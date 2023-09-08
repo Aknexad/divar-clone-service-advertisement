@@ -2,8 +2,6 @@ import express, { Request, Response, NextFunction, Router } from 'express';
 
 const router = express.Router();
 
-import { NotFound } from '../../domain/error-handling';
-
 export default function advertisementRoute(): Router {
   router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -17,9 +15,7 @@ export default function advertisementRoute(): Router {
   // get all advertisements in city
   router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      throw new NotFound();
-
-      const result = '';
+      const result = 'result';
       res.status(200).json({ msg: '', payload: result });
     } catch (error) {
       next(error);
@@ -36,18 +32,25 @@ export default function advertisementRoute(): Router {
     }
   });
 
-  // get advertisement by category
-  router.get(
-    '/category',
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const result = '';
-        res.status(200).json({ msg: '', payload: result });
-      } catch (error) {
-        next(error);
-      }
+  // get advertisement Contacts
+  router.get('contacts', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = '';
+      res.status(200).json({ msg: '', payload: result });
+    } catch (error) {
+      next(error);
     }
-  );
+  });
+
+  // get advertisement by category
+  router.get('/category', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = '';
+      res.status(200).json({ msg: '', payload: result });
+    } catch (error) {
+      next(error);
+    }
+  });
 
   router.put('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -58,17 +61,14 @@ export default function advertisementRoute(): Router {
     }
   });
 
-  router.delete(
-    '/',
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const result = '';
-        res.status(200).json({ msg: '', payload: result });
-      } catch (error) {
-        next(error);
-      }
+  router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = '';
+      res.status(200).json({ msg: '', payload: result });
+    } catch (error) {
+      next(error);
     }
-  );
+  });
 
   return router;
 }
