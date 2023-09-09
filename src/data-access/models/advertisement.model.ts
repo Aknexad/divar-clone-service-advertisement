@@ -11,6 +11,10 @@ interface AdvertisementModel {
   price: number;
   categories: string[];
   images: string[];
+  longitude?: string;
+  latitude?: string;
+  city: string;
+  Neighborhood: string;
 }
 
 const AdvertisementSchema = new mongoose.Schema<AdvertisementModel>({
@@ -23,9 +27,10 @@ const AdvertisementSchema = new mongoose.Schema<AdvertisementModel>({
   price: { type: Number, required: true },
   categories: { type: [String], required: true },
   images: { type: [String], required: true },
+  longitude: { type: String },
+  latitude: { type: String },
+  city: { type: String, required: true },
+  Neighborhood: { type: String, required: true },
 });
 
-export const AdvertisementModel = mongoose.model(
-  'AdvertisementModel',
-  AdvertisementSchema
-);
+export const AdvertisementModel = mongoose.model('Advert', AdvertisementSchema);

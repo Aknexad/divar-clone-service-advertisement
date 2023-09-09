@@ -1,1 +1,1 @@
-export * as addRepositoryInterface from './add.repository.interface';
+export * from './advert.repository.interface';
