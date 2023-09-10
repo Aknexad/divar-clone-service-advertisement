@@ -21,6 +21,7 @@ export const errorHandler = (
   }
 
   if (!isOperationalError(err)) {
+    console.log(err);
     process.exit(1);
     // restart app
   }

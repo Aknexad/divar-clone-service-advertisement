@@ -37,7 +37,7 @@ export interface GetAdvertsQuery {
   categories?: string[] | { $ne: null };
   longitude?: string | { $ne: null };
   latitude?: string | { $ne: null };
-  city?: string | { $ne: null };
+  city: string | { $ne: null };
 }
 
 export interface IAdvertisementRepository {

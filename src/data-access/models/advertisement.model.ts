@@ -23,7 +23,7 @@ const AdvertisementSchema = new mongoose.Schema<AdvertisementModel>({
   description: { type: String, required: true },
   condition: { type: String, required: true },
   postAt: { type: Number, default: Date.now() },
-  confirmed: { type: Boolean, required: true },
+  confirmed: { type: Boolean, default: false },
   price: { type: Number, required: true },
   categories: { type: [String], required: true },
   images: { type: [String], required: true },
