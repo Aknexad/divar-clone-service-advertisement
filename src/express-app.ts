@@ -2,7 +2,8 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 
-import advertisementRoute from './entry-points/api/add-router';
+import advertisementRoute from './entry-points/api/advert-router';
+import categoriesRouter from './entry-points/api/categories.router';
 import { errorHandler, isOperationalError } from './middleware';
 
 export default async (app: Application) => {
@@ -14,7 +15,7 @@ export default async (app: Application) => {
   // advertisement route
   app.use('/advertisement', advertisementRoute());
   // category route
-  // app.use('/categories');
+  app.use('/categories', categoriesRouter());
 
   app.use(errorHandler);
 
