@@ -4,7 +4,7 @@ export interface CrateAdvertisement {
   userId: string;
   title: string;
   description: string;
-  condition: 'نو' | 'در حد نو' | 'کار کرده' | 'نیاز به تعمیر';
+  condition: string;
   inStockCount: number;
   price: number;
   categories: string[];
