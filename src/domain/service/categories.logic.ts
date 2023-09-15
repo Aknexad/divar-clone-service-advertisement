@@ -1,5 +1,10 @@
-import { ICategoriesLogic, CrateCategoryInput } from '../interfaces-type';
+import {
+  ICategoriesLogic,
+  CrateCategoryInput,
+  GetCategoryOutput,
+} from '../interfaces-type';
 import { ICategoryRepository as ICat } from '../../data-access/interfaces-type';
+import { sortCategories } from '../../utils';
 
 class CategoriesLogic implements ICategoriesLogic {
   public async CrateCategory(data: CrateCategoryInput, repository: ICat) {
@@ -10,8 +15,14 @@ class CategoriesLogic implements ICategoriesLogic {
     return;
   }
 
-  public async GetCategory(repository: ICat) {
-    return await repository.GetAllCategories();
+  public async GetCategory(repository: ICat): Promise<GetCategoryOutput> {
+    const categories = await repository.GetAllCategories();
+
+    const pares = JSON.parse(JSON.stringify(categories));
+
+    const result = sortCategories(pares);
+
+    return result;
   }
 
   public async UpdateCategoryName(id: string, name: string, repository: ICat) {

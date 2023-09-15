@@ -7,7 +7,6 @@ import { AdvertisementModel } from '../models';
 
 class AdvertisementRepository implements IAdvertisementRepository {
   private defaultGetAdvertsQuery = {
-    categories: { $ne: null },
     longitude: { $ne: null },
     latitude: { $ne: null },
     city: { $ne: null },
@@ -17,12 +16,45 @@ class AdvertisementRepository implements IAdvertisementRepository {
     this.advertModel = advertModel;
   }
 
-  public async CarateAdverts(data: CrateAdvertisement) {
-    return await this.advertModel.AdvertisementModel.create(data);
+  public async CreateAdverts(data: CrateAdvertisement) {
+    const createdAdvert = await this.advertModel.AdvertisementModel.create(data);
+
+    return createdAdvert;
   }
 
   public async GetAdverts(query: GetAdvertsQuery = this.defaultGetAdvertsQuery) {
-    return await this.advertModel.AdvertisementModel.find(query);
+    return await this.advertModel.AdvertisementModel.aggregate([
+      {
+        $match: {
+          longitude: query.longitude,
+          latitude: query.latitude,
+          city: query.city,
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'categories',
+          foreignField: '_id',
+          as: 'result',
+        },
+      },
+      {
+        $project: {
+          _id: '$_id',
+          userId: '$userId',
+          title: '$title',
+          description: '$description',
+          condition: '$condition',
+          postAt: '$postAt',
+          price: '$price',
+          categories: '$result',
+          images: '$images',
+          city: '$city',
+          Neighborhood: '$Neighborhood',
+        },
+      },
+    ]);
   }
 
   public async GetAdvertById(id: string) {
@@ -38,4 +70,4 @@ class AdvertisementRepository implements IAdvertisementRepository {
   }
 }
 
-export const advertisementRepository = new AdvertisementRepository(AdvertisementModel);
+export { AdvertisementRepository };

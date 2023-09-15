@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 interface AdvertisementModel {
   userId: string;
@@ -9,7 +9,7 @@ interface AdvertisementModel {
   confirmed: boolean;
   inStockCount: number;
   price: number;
-  categories: string[];
+  categories: Types.ObjectId[];
   images: string[];
   longitude?: string;
   latitude?: string;
@@ -25,7 +25,7 @@ const AdvertisementSchema = new mongoose.Schema<AdvertisementModel>({
   postAt: { type: Number, default: Date.now() },
   confirmed: { type: Boolean, default: false },
   price: { type: Number, required: true },
-  categories: { type: [String], required: true },
+  categories: { type: [Types.ObjectId], required: true },
   images: { type: [String], required: true },
   longitude: { type: String },
   latitude: { type: String },

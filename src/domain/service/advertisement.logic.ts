@@ -6,25 +6,46 @@ import {
   UpdateAdvertInput,
 } from '../interfaces-type';
 
-import { AppError, namesOfErrors, statusCode } from '../../utility';
+import {
+  AppError,
+  namesOfErrors,
+  statusCode,
+  extractImagesIds,
+  formattingAdvertOnResult,
+} from '../../utils';
 
 class AdvertisementLogics implements IAdvertisementLogics {
-  public async CrateAdvert(data: CrateAdvertInput, repository: IRepo): Promise<void> {
-    await repository.CarateAdverts(data);
+  public async CreateAdvert(data: CrateAdvertInput, repository: IRepo): Promise<void> {
+    await repository.CreateAdverts(data);
 
     return;
   }
 
-  public async GetAdvert(
+  public async GetAdverts(
     query: any,
     repository: IRepo
   ): Promise<GetAdvertInOutput[] | []> {
     const advert = await repository.GetAdverts(query);
 
-    // for each advert get image id
-    const imagesLink = [''];
+    if (advert.length <= 0) {
+      throw new AppError(
+        namesOfErrors.notFound,
+        statusCode.NOT_FOUND,
+        'no advert excite',
+        true
+      );
+    }
 
-    // get images lin form image service
+    // for each advert get image id
+    // @ts-ignore
+    const imagesIds = extractImagesIds(advert);
+    console.log(
+      '🚀 ~ file: advertisement.logic.ts:26 ~ AdvertisementLogics ~ imagesIds:',
+      imagesIds
+    );
+
+    // get images link form image service
+    // const imagesLink =
 
     const finalAdvert = advert.map(advert => {
       return {
@@ -35,7 +56,7 @@ class AdvertisementLogics implements IAdvertisementLogics {
         inStockCount: advert.inStockCount,
         price: advert.price,
         categories: advert.categories,
-        images: imagesLink,
+        images: advert.images,
         longitude: advert.longitude,
         latitude: advert.latitude,
         city: advert.city,
@@ -53,8 +74,21 @@ class AdvertisementLogics implements IAdvertisementLogics {
     const advert = await repository.GetAdvertById(id);
 
     if (!advert) {
-      return null;
+      throw new AppError(
+        namesOfErrors.notFound,
+        statusCode.NOT_FOUND,
+        'no advert with give id essie',
+        true
+      );
     }
+
+    // @ts-ignore
+    const imageId = extractImagesIds(advert);
+    console.log(
+      '🚀 ~ file: advertisement.logic.ts:79 ~ AdvertisementLogics ~ imageId:',
+      imageId
+    );
+
     // get image
     const imagesLink = [''];
 
@@ -82,11 +116,13 @@ class AdvertisementLogics implements IAdvertisementLogics {
   ): Promise<{ phone: string } | null> {
     const advert = await repository.GetAdvertById(advertId);
 
-    if (!advert) new AppError(namesOfErrors.badRequest, statusCode.NOT_FOUND, '', true);
+    if (!advert)
+      throw new AppError(namesOfErrors.badRequest, statusCode.NOT_FOUND, '', true);
 
     // send grpc to user service and get user contact
+    const contact = { phone: '' };
 
-    return { phone: '' };
+    return contact;
   }
 
   public async UpdateAdvert(data: UpdateAdvertInput, repository: IRepo): Promise<void> {
@@ -95,4 +131,4 @@ class AdvertisementLogics implements IAdvertisementLogics {
   public async DeleteAdvert(advertId: string[], repository: IRepo): Promise<void> {}
 }
 
-export const advertisementLogics = new AdvertisementLogics();
+export { AdvertisementLogics };

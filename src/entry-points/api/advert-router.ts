@@ -1,10 +1,14 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
-import { advertisementRepository } from '../../data-access/repository';
-import { advertisementLogics } from '../../domain/service';
+import { AdvertisementRepository } from '../../data-access/repository';
+import { AdvertisementModel } from '../../data-access/models';
+import { AdvertisementLogics } from '../../domain/service';
 import { validation } from '../../middleware';
-import { validationSchema } from '../../utility';
+import { validationSchema } from '../../utils';
 
 const router = express.Router();
+
+const advertisementLogics = new AdvertisementLogics();
+const advertisementRepository = new AdvertisementRepository(AdvertisementModel);
 
 export default function advertisementRoute(): Router {
   router.post(
@@ -12,7 +16,7 @@ export default function advertisementRoute(): Router {
     validation(validationSchema.CrateAdvertsSchema),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const result = await advertisementLogics.CrateAdvert(
+        const result = await advertisementLogics.CreateAdvert(
           { userId: '1234', ...req.body },
           advertisementRepository
         );
@@ -26,7 +30,7 @@ export default function advertisementRoute(): Router {
   // get all advertisements in city
   router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await advertisementLogics.GetAdvert(
+      const result = await advertisementLogics.GetAdverts(
         req.query,
         advertisementRepository
       );
@@ -37,9 +41,9 @@ export default function advertisementRoute(): Router {
   });
 
   // get advertisement by id
-  router.get('/id', async (req: Request, res: Response, next: NextFunction) => {
+  router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id: string = req.query.id as string;
+      const id: string = req.params.id;
 
       const result = await advertisementLogics.GetAdvertById(id, advertisementRepository);
       res.status(200).json({ msg: '', payload: result });
@@ -49,7 +53,7 @@ export default function advertisementRoute(): Router {
   });
 
   // get advertisement Contacts
-  router.get('contacts', async (req: Request, res: Response, next: NextFunction) => {
+  router.get('/contacts', async (req: Request, res: Response, next: NextFunction) => {
     try {
       const advertId: string = req.query.advertId as string;
 

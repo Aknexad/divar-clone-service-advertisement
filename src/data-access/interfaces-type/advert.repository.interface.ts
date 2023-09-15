@@ -15,6 +15,13 @@ export interface CrateAdvertisement {
   Neighborhood: string;
 }
 
+// interface CategoryDocument extends Document {
+//   _id?: Types.ObjectId;
+//   id?: string;
+//   name: string;
+//   parentId: string;
+// }
+
 export interface AdvertisementDocument extends Document {
   userId: string;
   title: string;
@@ -24,7 +31,7 @@ export interface AdvertisementDocument extends Document {
   confirmed: boolean;
   inStockCount: number;
   price: number;
-  categories: string[];
+  categories: any[];
   images: string[];
   longitude?: string;
   latitude?: string;
@@ -33,15 +40,13 @@ export interface AdvertisementDocument extends Document {
 }
 
 export interface GetAdvertsQuery {
-  condition?: string | { $ne: null };
-  categories?: string[] | { $ne: null };
   longitude?: string | { $ne: null };
   latitude?: string | { $ne: null };
   city: string | { $ne: null };
 }
 
 export interface IAdvertisementRepository {
-  CarateAdverts(data: CrateAdvertisement): Promise<AdvertisementDocument>;
+  CreateAdverts(data: CrateAdvertisement): Promise<AdvertisementDocument>;
 
   GetAdverts(query: GetAdvertsQuery): Promise<AdvertisementDocument[]>;
 

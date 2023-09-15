@@ -5,10 +5,17 @@ export type CrateCategoryInput = {
   parentId?: string;
 };
 
+export interface GetCategoryOutput {
+  id: string;
+  name: string;
+  parentId: string | null;
+  subCategories: GetCategoryOutput[];
+}
+
 export interface ICategoriesLogic {
   CrateCategory(data: CrateCategoryInput, repository: ICat): Promise<void>;
 
-  GetCategory(repository: ICat): Promise<any>;
+  GetCategory(repository: ICat): Promise<GetCategoryOutput | []>;
 
   UpdateCategoryName(id: string, name: string, repository: ICat): Promise<void>;
 

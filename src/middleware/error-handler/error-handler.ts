@@ -1,7 +1,7 @@
 // import { createLogger, transports } from 'winston';
 import { Request, Response, NextFunction } from 'express';
 
-import { AppError } from '../../utility/';
+import { AppError } from '../../utils/';
 
 export const isOperationalError = (error: Error): boolean => {
   if (error instanceof AppError) {

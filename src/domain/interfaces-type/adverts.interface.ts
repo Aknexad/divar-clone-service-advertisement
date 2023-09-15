@@ -20,6 +20,7 @@ export interface UpdateAdvertInput {
   title: string;
   description: string;
   condition: string;
+  price: number;
 }
 
 export interface GetAdvertInOutput {
@@ -29,7 +30,7 @@ export interface GetAdvertInOutput {
   condition: 'نو' | 'در حد نو' | 'کار کرده' | 'نیاز به تعمیر';
   inStockCount: number;
   price: number;
-  categories: string[];
+  categories: any[];
   images: string[];
   longitude?: string;
   latitude?: string;
@@ -42,12 +43,12 @@ type GetAdvertContactsOutput = {
 };
 
 export interface IAdvertisementLogics {
-  CrateAdvert(
+  CreateAdvert(
     data: CrateAdvertInput,
     repository: IAdvertisementRepository
   ): Promise<void>;
 
-  GetAdvert(
+  GetAdverts(
     query: any,
     repository: IAdvertisementRepository
   ): Promise<GetAdvertInOutput[] | []>;
